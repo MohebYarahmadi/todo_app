@@ -1,6 +1,12 @@
-this is the first task
-this is the second task
-this is the third task..
-this is the fifth task.
-watashi no onamae wa mohebu desu
-this is the last task
+barber practice during day
+hello and welcome
+this is the first task.
+this is the 1st task
+this is the third task.
+this is the 3rd task
+what is  this
+take care of my love
+this task updated using command exctraction
+this is my new task to added like args
+write a good music score for game
+new task added

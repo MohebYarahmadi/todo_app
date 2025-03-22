@@ -7,94 +7,114 @@ print("add show remove remove compeleted")
 print("".center(50, '-'))
 
 while True:
-    command = input(prompt).lower().strip()
-    
-    match command:            
-        case 'exit':
-            break
-            
-        case 'add':
-            todo = input("Add a task: ").strip() + '\n'
+    user_input = input(prompt).lower().strip()
+    csp = user_input.find(' ')
+    if csp == -1:
+        command = user_input.strip()
+    else:
+        command = user_input[:csp].strip()
 
-            file = open('files/todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
-            
+    match command:
+        case 'quit' | 'exit':
+            print("Saving... done!")
+            break
+
+        case 'add':
+            # todo = input("Add a task: ").strip() + '\n'
+            # print('debug: add command')
+            todo = user_input[csp:].strip() + '\n'
+
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
+
             todos.append(todo)
 
-            file = open('files/todos.txt', 'w')
-            file.writelines(todos)
-            file.close()
-            
+            with open('files/todos.txt', 'w') as file:
+                file.writelines(todos)
+
+            print(' Done '.center(50, '-'))
+
         case 'show':
             print(" Tasks ".center(50, '-'))
 
-            file = open('files/todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
-            
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
+
+            # todos = [item.strip('\n') for item in todos]
+
             if len(todos) > 0:
                 for index, item in enumerate(todos, start=1):
-                    print(f"{index}: {item.title()}", end='')
+                    # item = item.strip('\n')
+                    print(f"{index}. {item.capitalize()}", end='')
             else:
                 print("There is no task yet, type add to start adding.")
-            print('-' * 50)
-            
+
+            print(' End '.center(50, '-'))
+
         case 'edit':
             # show_list()
-            item_id = int(input("Enter the task number to edit: "))
+            # item_id = int(input("Enter the task number to edit: "))
+            item_id = int(user_input[csp:].strip())
+
             if item_id > len(todos):
-                print("Task not exist, try again.")
+                print(' Failed '.center(50, '-'))
             else:
                 todos[item_id - 1] = input("Update: ") + '\n'
 
-                file = open('files/todos.txt', 'w')
-                file.writelines(todos)
-                file.close()
-                
+                with open('files/todos.txt', 'w') as file:
+                    file.writelines(todos)
+
                 print(f"Task {item_id} updated.")
+                print(' Done '.center(50, '-'))
 
-        case 'complete':
-            item_id = int(input("Enter the task number to complete: "))
+        case 'done':
+            item_id = int(user_input[csp:].strip())
             if item_id > len(todos):
-                print("Task not exist, try again.")
+                print("Task not exist, check the entry.")
+                print(' Failed '.center(50, '-'))
             else:
-                todos.pop(item_id - 1)
+                item = todos.pop(item_id - 1).strip('\n')
 
-                file = open('files/todos.txt', 'w')
-                file.writelines(todos)
-                file.close()
-                
-                print(f"Task completed.")
+                with open('files/todos.txt', 'w') as file:
+                    file.writelines(todos)
+
+                print(f"Task '{item}' is completed.")
+                print(' Done '.center(50, '-'))
 
         case 'order':
-            item_id = int(input("Enter current position: "))
+            item_id = int(user_input[csp:].strip())
             new_id = int(input("Enter new position: "))
             if item_id - 1 == new_id - 1:
                 print("Same position.")
+                print(' Failed '.center(50, '-'))
+            elif item_id > len(todos) or new_id > len(todos):
+                print("Task not found.")
+                print(' Failed '.center(50, '-'))
             else:
                 item = todos.pop(item_id - 1)
                 todos.insert(new_id - 1, item)
 
-                file = open('files/todos.txt', 'w')
-                file.writelines(todos)
-                file.close()
-                
-                print("Task moved to new position.")
-            
+                with open('files/todos.txt', 'w') as file:
+                    file.writelines(todos)
+
+                print(f"Task number {item_id} >> {new_id}.")
+                print(' Done '.center(50, '-'))
 
         case 'help':
             print(" Help ".center(50, '-'))
             print("The commands that you can enter to get things done are:")
-            print("add\t\tto add a new task to the list.")
-            print("edit\t\tto edit the existed task by it's number.")
-            print("compelte\tset the selected task by it's number as completed." \
-            "\n\t\tthe task will be remove from the list.")
-            print("show\t\tshow the current not completed tasks.")
-            print("exit\t\tto exit the program.")
-            print("help\t\tto see this text.")
+            print("add <string>\tto add a new task to the list.")
+            print("edit <id>\tto edit the existed task by it's number.")
+            print("done <id>\tset the selected task as done."
+                "\n\t\tthe task will be remove from the list.")
+            print("order <id>\tAsk for <new position> to reorder the selected task.")
+            print("show\tshow the current not completed tasks.")
+            print("exit\tto exit the program.")
+            print("help\tto see this text.")
             print('-' * 50)
-            
+
         case _:
-            print("Command not exist. try again.")
-            
+            print("Command not found. type 'help' to learn.")
+            print(' Failed '.center(50, '-'))
+
+print(' Bye! '.center(50, '-'))
