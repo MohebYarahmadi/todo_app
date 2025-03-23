@@ -11,6 +11,7 @@ print("add show remove remove compeleted")
 print("".center(50, '-'))
 
 while True:
+    # os.system('cls' if os.name == 'nt' else 'clear')
     user_input = input(prompt).lower().strip()
     csp = user_input.find(' ')
     if csp == -1:
@@ -22,13 +23,11 @@ while True:
 
     match command:
         case 'quit' | 'exit':
-            os.system('cls' if os.name == 'nt' else 'clear')
             print("Saving...\nDone!")
             print(' Bye! '.center(50, '-'))
             break
 
         case 'add':
-            os.system('cls' if os.name == 'nt' else 'clear')
             # todo = input("Add a task: ").strip() + '\n'
             # print('debug: add command')
             todo = user_input[csp:].strip() + '\n'
@@ -44,7 +43,6 @@ while True:
             print(' Done '.center(50, '-'))
 
         case 'show':
-            os.system('cls' if os.name == 'nt' else 'clear')
             print(" Tasks ".center(50, '-'))
 
             with open('files/todos.txt', 'r') as file:
@@ -62,7 +60,6 @@ while True:
             print(' End '.center(50, '-'))
 
         case 'edit':
-            os.system('cls' if os.name == 'nt' else 'clear')
             if flag:
                 item_id = int(user_input[csp:].strip())
             else:
@@ -83,7 +80,6 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'done':
-            os.system('cls' if os.name == 'nt' else 'clear')
             if flag:
                 item_id = int(user_input[csp:].strip())
             else:
@@ -104,7 +100,6 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'order':
-            os.system('cls' if os.name == 'nt' else 'clear')
             if flag:
                 item_id = int(user_input[csp:].strip())
             else:
@@ -130,7 +125,6 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'help':
-            os.system('cls' if os.name == 'nt' else 'clear')
             print(" Help ".center(50, '-'))
             print("List of the commands that you can use to get things done are:")
             print("add <string>\tto add a new task to the list.")
@@ -144,6 +138,5 @@ while True:
             print('-' * 50)
 
         case _:
-            os.system('cls' if os.name == 'nt' else 'clear')
             print("Command not found.")
             print(' Failed '.center(50, '-'))
