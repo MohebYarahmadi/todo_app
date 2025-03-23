@@ -1,12 +1,6 @@
-barber practice during day
+this task is urgent
+this is my first task.
 hello and welcome
-this is the first task.
-this is the 1st task
-this is the third task.
-this is the 3rd task
-what is  this
-take care of my love
-this task updated using command exctraction
-this is my new task to added like args
-write a good music score for game
-new task added
+this is add using new open
+what abotu this
+and this line added nowanother one to test

@@ -1,7 +1,11 @@
+import os
+
 prompt = "Command >> "
+flag = True
 # todos = []
 
-print(" Todo List Application ".center(50, '='))
+print(" Todo List Cli Application ".center(50, '='))
+print(" Moheb Yarahmadi ".center(50, '*'))
 print("You can manage your todo list by these commands:")
 print("add show remove remove compeleted")
 print("".center(50, '-'))
@@ -11,15 +15,20 @@ while True:
     csp = user_input.find(' ')
     if csp == -1:
         command = user_input.strip()
+        flag = False
     else:
         command = user_input[:csp].strip()
+        flag = True
 
     match command:
         case 'quit' | 'exit':
-            print("Saving... done!")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("Saving...\nDone!")
+            print(' Bye! '.center(50, '-'))
             break
 
         case 'add':
+            os.system('cls' if os.name == 'nt' else 'clear')
             # todo = input("Add a task: ").strip() + '\n'
             # print('debug: add command')
             todo = user_input[csp:].strip() + '\n'
@@ -35,6 +44,7 @@ while True:
             print(' Done '.center(50, '-'))
 
         case 'show':
+            os.system('cls' if os.name == 'nt' else 'clear')
             print(" Tasks ".center(50, '-'))
 
             with open('files/todos.txt', 'r') as file:
@@ -52,11 +62,16 @@ while True:
             print(' End '.center(50, '-'))
 
         case 'edit':
-            # show_list()
-            # item_id = int(input("Enter the task number to edit: "))
-            item_id = int(user_input[csp:].strip())
+            os.system('cls' if os.name == 'nt' else 'clear')
+            if flag:
+                item_id = int(user_input[csp:].strip())
+            else:
+                print('Missing argument.  Type help to learn.')
+                print(' Failed '.center(50, '-'))
+                continue
 
             if item_id > len(todos):
+                print('Out of range.')
                 print(' Failed '.center(50, '-'))
             else:
                 todos[item_id - 1] = input("Update: ") + '\n'
@@ -68,7 +83,14 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'done':
-            item_id = int(user_input[csp:].strip())
+            os.system('cls' if os.name == 'nt' else 'clear')
+            if flag:
+                item_id = int(user_input[csp:].strip())
+            else:
+                print('Missing argument.  Type help to learn.')
+                print(' Failed '.center(50, '-'))
+                continue
+                
             if item_id > len(todos):
                 print("Task not exist, check the entry.")
                 print(' Failed '.center(50, '-'))
@@ -82,7 +104,14 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'order':
-            item_id = int(user_input[csp:].strip())
+            os.system('cls' if os.name == 'nt' else 'clear')
+            if flag:
+                item_id = int(user_input[csp:].strip())
+            else:
+                print('Missing argument.  Type help to learn.')
+                print(' Failed '.center(50, '-'))
+                continue
+                
             new_id = int(input("Enter new position: "))
             if item_id - 1 == new_id - 1:
                 print("Same position.")
@@ -101,8 +130,9 @@ while True:
                 print(' Done '.center(50, '-'))
 
         case 'help':
+            os.system('cls' if os.name == 'nt' else 'clear')
             print(" Help ".center(50, '-'))
-            print("The commands that you can enter to get things done are:")
+            print("List of the commands that you can use to get things done are:")
             print("add <string>\tto add a new task to the list.")
             print("edit <id>\tto edit the existed task by it's number.")
             print("done <id>\tset the selected task as done."
@@ -114,7 +144,6 @@ while True:
             print('-' * 50)
 
         case _:
-            print("Command not found. type 'help' to learn.")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("Command not found.")
             print(' Failed '.center(50, '-'))
-
-print(' Bye! '.center(50, '-'))
