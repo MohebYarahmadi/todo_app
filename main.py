@@ -5,21 +5,72 @@ flag = True
 # todos = []
 
 print(" Todo List Cli Application ".center(50, '='))
-print(" Moheb Yarahmadi ".center(50, '*'))
 print("You can manage your todo list by these commands:")
 print("add show remove remove compeleted")
 print("".center(50, '-'))
 
-while True:
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    user_input = input(prompt).lower().strip()
-    csp = user_input.find(' ')
-    if csp == -1:
-        command = user_input.strip()
-        flag = False
+def parse_command(prompt):
+    """Parse user input into command and flags.
+    
+    Args:
+        prompt (str): The input prompt to display to the user.
+        
+    Returns:
+        tuple: A tuple containing:
+            - has_flags (bool): True if input contains additional text after command
+            - raw_input (str): Return the if there is no flag after command
+            - command (str): The extracted command (first word) if flag provided
+            - space_pos (int): Position of first space, or -1 if none
+    """
+    # Get and clean user input
+    raw_input = input(prompt).lower().strip()
+    
+    # Find the first space character
+    space_pos = _space_pos(raw_input)
+    
+    # Extract command and determine if flags exist
+    if space_pos == -1:
+        command = raw_input
+        has_flags = False
     else:
-        command = user_input[:csp].strip()
-        flag = True
+        command = raw_input[:space_pos]
+        has_flags = True
+    
+    return has_flags, raw_input, command, space_pos
+
+
+def _space_pos(raw_input):
+    return raw_input.find(' ')
+
+def _get_list(filepath):
+    """Read the textlines and return as a list.
+    
+    Args:
+        path (str): The path to the text file.
+        
+    Returns:
+        list: A list containing:
+            - Lines of the text file
+    """
+    with open(filepath) as file:
+        return file.readlines()
+    
+
+def _post_list(filepath, lst):
+    """Write the provided list into a text file.
+    
+    Args:
+        path (str): The path to the text file.
+        lst (list): A list to write into a text file.
+        
+    Returns:
+        void
+    """
+    with open(filepath, 'w') as file:
+        file.writelines(lst)
+
+while True:
+    flag, user_input, command, csp= parse_command(prompt)
 
     match command:
         case 'quit' | 'exit':
@@ -28,25 +79,20 @@ while True:
             break
 
         case 'add':
-            # todo = input("Add a task: ").strip() + '\n'
-            # print('debug: add command')
             todo = user_input[csp:].strip() + '\n'
 
-            with open('files/todos.txt', 'r') as file:
-                todos = file.readlines()
+            todos = _get_list('files/todos.txt')
 
             todos.append(todo)
 
-            with open('files/todos.txt', 'w') as file:
-                file.writelines(todos)
+            _post_list('files/todos.txt', todos)
 
             print(' Done '.center(50, '-'))
 
-        case 'show':
+        case 'show' | 'ls':
             print(" Tasks ".center(50, '-'))
 
-            with open('files/todos.txt', 'r') as file:
-                todos = file.readlines()
+            todos = _get_list('files/todos.txt')
 
             # todos = [item.strip('\n') for item in todos]
 
@@ -73,8 +119,7 @@ while True:
             else:
                 todos[item_id - 1] = input("Update: ") + '\n'
 
-                with open('files/todos.txt', 'w') as file:
-                    file.writelines(todos)
+                _post_list('files/todos.txt', todos)
 
                 print(f"Task {item_id} updated.")
                 print(' Done '.center(50, '-'))
@@ -93,8 +138,7 @@ while True:
             else:
                 item = todos.pop(item_id - 1).strip('\n')
 
-                with open('files/todos.txt', 'w') as file:
-                    file.writelines(todos)
+                _post_list('files/todos.txt', todos)
 
                 print(f"Task '{item}' is completed.")
                 print(' Done '.center(50, '-'))
@@ -118,8 +162,7 @@ while True:
                 item = todos.pop(item_id - 1)
                 todos.insert(new_id - 1, item)
 
-                with open('files/todos.txt', 'w') as file:
-                    file.writelines(todos)
+                _post_list('files/todos.txt', todos)
 
                 print(f"Task number {item_id} >> {new_id}.")
                 print(' Done '.center(50, '-'))
@@ -136,6 +179,10 @@ while True:
             print("exit\tto exit the program.")
             print("help\tto see this text.")
             print('-' * 50)
+
+        case 'cls' | 'clear':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(' Cli Todo '.center(50, '-'))
 
         case _:
             print("Command not found.")
