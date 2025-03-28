@@ -1,4 +1,5 @@
 import os
+import time
 
 import functions
 
@@ -6,6 +7,7 @@ prompt = "Command >> "
 flag = True
 
 functions.banner(50)
+functions._post_list(list())
 # print(help(_div))
 
 while True:
@@ -18,7 +20,8 @@ while True:
             break
 
         case 'add':
-            todo = user_input[csp:].strip() + '\n'
+            date = time.strftime(" (%H:%M:%S)")
+            todo = user_input[csp:].strip() + date + '\n'
 
             todos = functions._get_list()
 
