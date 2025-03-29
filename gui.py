@@ -1,18 +1,28 @@
 import functions
-import FreeSimpleGUI as sg
 
-label = sg.Text('Type in a to-do')
-add_input_box = sg.InputText(tooltip='enter here')
-edit_input_box = sg.InputText(tooltip='enter here')
-add_btn = sg.Button("Add")
-clear_btn = sg.Button("Clear")
+from gui_setting import *
 
-wrapper= [
-    [label],
-    [add_input_box, add_btn],
-    [edit_input_box, clear_btn]
-]
 
-window = sg.Window('Todo App', layout=wrapper)
-window.read()
+window = sg.Window('Todo App',
+                    layout=wrapper,
+                    font=('JetBrains Mono', 10)
+                    )
+
+while True:
+    event, values = window.read()
+    print(event)
+
+    match event:
+        case 'Exit':
+            break
+        case sg.WIN_CLOSED:
+            break
+        case 'Submit':
+            print('adding todo')
+            todos = functions._get_list()
+            todos.append(values["Add"] + "\n")
+            functions._post_list(todos)
+        case 'help':
+            print('show help')
+
 window.close()
