@@ -84,3 +84,5 @@ def _div(title, width=50, symbol='-'):
         symbol (str): A character to use draw the divider.
     """
     print(f" {title} ".center(width, symbol))
+
+
