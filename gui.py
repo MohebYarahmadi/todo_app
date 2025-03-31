@@ -19,7 +19,6 @@ while True:
             todos.append(values["todo"] + "\n")
             functions._post_list(todos)
             window['item_select'].update(values=todos)
-            print('todo added')
             
         case 'item_select':
             window['todo'].update(value=values['item_select'][0])
@@ -35,8 +34,9 @@ while True:
             todos[item_id] = new_item + '\n'
             functions._post_list(todos)
             window['item_select'].update(values=todos)
+            
             window['Edit'].update(disabled=True)
-            print('todo updated')
+            window['Done'].update(disabled=True)
 
         case 'Done':
             current_item = values['item_select'][0]
@@ -45,6 +45,8 @@ while True:
             todos.remove(current_item)
             functions._post_list(todos)
             window['item_select'].update(values=todos)
+            
+            window['Edit'].update(disabled=True)
             window['Done'].update(disabled=True)
             
         case 'Help':

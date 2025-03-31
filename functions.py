@@ -1,3 +1,9 @@
+import os
+
+if not os.path.exists('files/todos.txt'):
+    with open('files/todos.txt', 'w') as file:
+        pass
+
 def banner(witdh):
     print(" Cli Todo ".center(witdh, '='))
     print("You can manage your todo list by these commands:")
