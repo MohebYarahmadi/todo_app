@@ -1,7 +1,7 @@
-import os
+import functions
+#import os
 import time
 
-import functions
 
 prompt = "Command >> "
 flag = True

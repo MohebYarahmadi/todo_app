@@ -2,6 +2,7 @@ import os
 
 if not os.path.exists('files/todos.txt'):
     with open('files/todos.txt', 'w') as file:
+        print('File created')
         pass
 
 def banner(witdh):
