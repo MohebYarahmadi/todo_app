@@ -13,7 +13,7 @@ while True:
             break
         case 'Add':
             if values['todo'] == '':
-                sg.popup('wrong input', title='Warning')
+                sg.popup('Wrong input, Try again', title='Warning')
                 continue
             todos = functions._get_list()
             todos.append(values["todo"] + "\n")

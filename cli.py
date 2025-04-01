@@ -1,14 +1,12 @@
 import functions
-#import os
-import time
+import os
+#import time
 
 
 prompt = "Command >> "
 flag = True
 
 functions.banner(50)
-functions._post_list(list())
-# print(help(_div))
 
 while True:
     flag, user_input, command, csp= functions.parse_command(prompt)
@@ -20,8 +18,9 @@ while True:
             break
 
         case 'add':
-            date = time.strftime(" (%H:%M:%S)")
-            todo = user_input[csp:].strip() + date + '\n'
+#            date = time.strftime(" (%H:%M:%S)")
+#            todo = user_input[csp:].strip() + date + '\n'
+            todo = user_input[csp:].strip() + '\n'
 
             todos = functions._get_list()
 
@@ -124,7 +123,6 @@ while True:
 
         case 'cls' | 'clear':
             os.system('cls' if os.name == 'nt' else 'clear')
-            # _div('Cli Todo')
             functions.banner(50)
 
         case _:
