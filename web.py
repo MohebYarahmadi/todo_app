@@ -15,8 +15,13 @@ st.subheader('This is a header.')
 st.write("This is a simple text")
 
 
-for todo in todos:
-    st.checkbox(todo.title())
+for index, todo in enumerate(todos):
+    checkbox = st.checkbox(todo.title(), key=todo)
+    if checkbox:
+        todos.pop(index)
+        functions._post_list(todos)
+        del st.session_state[todo]
+        st.rerun()
 
 st.text_input(label="What you gonna do:",
             placeholder='Add new task...',
@@ -24,3 +29,5 @@ st.text_input(label="What you gonna do:",
             key='_new_task_')
 
 
+# debug
+st.session_state
